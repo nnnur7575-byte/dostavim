@@ -2,67 +2,79 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>DOSTAVIM</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: #1a1a1a; min-height: 100vh; display: flex; justify-content: center; align-items: center; }
-    .app-screen { width: 100%; max-width: 390px; height: 100vh; max-height: 844px; background: #8B32EB; display: flex; flex-direction: column; align-items: center; padding: 20px 15px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-    #auth-screen { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 60px 0 40px 0; }
-    .logo-container { display: flex; justify-content: center; align-items: center; margin-top: 40px; animation: logoAppear 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-    .logo-text { font-size: 42px; font-weight: 900; color: #FFF500; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0px 4px 0px #6113B8, 0px 8px 15px rgba(0,0,0,0.3); animation: pulse 3s infinite ease-in-out 1.2s; }
-    @keyframes logoAppear { 0% { opacity: 0; transform: scale(0.3) translateY(-50px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
-    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-    .form-container { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 15px; }
-    .input-label { color: #FFF500; font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-    .phone-input { width: 100%; padding: 16px 20px; background: #FFFFFF; border: none; border-radius: 12px; font-size: 20px; font-weight: 700; text-align: center; color: #333333; outline: none; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-    .btn-submit { width: 60%; padding: 14px; background: #4A128B; border: none; border-radius: 12px; color: #FFF500; font-size: 18px; font-weight: 800; text-transform: uppercase; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-    .btn-submit:active { transform: scale(0.96); }
-    .error-msg { color: #FFD700; font-size: 13px; font-weight: 600; height: 18px; }
-    #app-content { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: space-between; align-items: center; }
-    .header-card { width: 100%; background: #3B096C; border-radius: 16px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); margin-bottom: 15px; }
-    .courier-name { color: #FFF500; font-size: 18px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .menu-btn { background: transparent; border: none; color: #FFF500; font-size: 26px; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; padding: 0 4px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    html, body { width: 100%; height: 100%; background-color: #8B32EB; overflow: hidden; }
+    
+    .app-screen { width: 100%; height: 100%; display: flex; flex-direction: column; background: #8B32EB; padding: env(safe-area-inset-top, 15px) 16px env(safe-area-inset-bottom, 15px) 16px; position: relative; }
+    
+    /* ЭКРАН АВТОРИЗАЦИИ */
+    #auth-screen { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 40px 0 20px 0; }
+    .logo-container { display: flex; justify-content: center; align-items: center; margin-top: 30px; }
+    .logo-text { font-size: 38px; font-weight: 900; color: #FFF500; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0px 4px 0px #6113B8, 0px 8px 15px rgba(0,0,0,0.3); }
+    .form-container { width: 100%; max-width: 340px; display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .input-label { color: #FFF500; font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; text-align: center; }
+    .phone-input { width: 100%; padding: 14px 16px; background: #FFFFFF; border: none; border-radius: 12px; font-size: 18px; font-weight: 700; text-align: center; color: #333333; outline: none; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+    .btn-submit { width: 100%; padding: 14px; background: #3B096C; border: none; border-radius: 12px; color: #FFF500; font-size: 16px; font-weight: 800; text-transform: uppercase; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .btn-submit:active { transform: scale(0.98); }
+    .error-msg { color: #FFD700; font-size: 13px; font-weight: 600; min-height: 18px; text-align: center; }
+
+    /* ОСНОВНОЙ ИНТЕРФЕЙС */
+    #app-content { display: none; width: 100%; height: 100%; flex-direction: column; }
+    .header-card { width: 100%; background: #3B096C; border-radius: 16px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); margin-bottom: 12px; flex-shrink: 0; }
+    .courier-name { color: #FFF500; font-size: 16px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .menu-btn { background: transparent; border: none; color: #FFF500; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; padding: 0 4px; }
+    
     .page-view { width: 100%; flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-    .orders-list { width: 100%; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; padding-right: 2px; }
-    .empty-state { text-align: center; color: rgba(255, 255, 255, 0.7); font-weight: 600; margin-top: 40px; font-size: 15px; }
-    .order-card { width: 100%; background: #3B096C; border-radius: 20px; padding: 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.25); cursor: pointer; position: relative; }
-    .order-info { display: flex; flex-direction: column; gap: 6px; color: #FFF500; font-size: 14px; font-weight: 700; max-width: 72%; }
-    .status-tag { font-size: 11px; background: #27ae60; color: #ffffff; padding: 3px 8px; border-radius: 8px; display: inline-block; width: fit-content; margin-bottom: 2px; }
+    .orders-list { width: 100%; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding-bottom: 10px; }
+    .empty-state { text-align: center; color: rgba(255, 255, 255, 0.8); font-weight: 600; margin-top: 40px; font-size: 15px; }
+    
+    .order-card { width: 100%; background: #3B096C; border-radius: 16px; padding: 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2); cursor: pointer; flex-shrink: 0; }
+    .order-info { display: flex; flex-direction: column; gap: 4px; color: #FFF500; font-size: 13px; font-weight: 700; max-width: 75%; }
+    .status-tag { font-size: 11px; background: #27ae60; color: #ffffff; padding: 2px 8px; border-radius: 6px; display: inline-block; width: fit-content; margin-bottom: 2px; }
     .status-tag.completed { background: #2980b9; }
     .order-info span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .action-yellow-block { background: #FFF500; width: 55px; height: 75px; border-radius: 16px; display: flex; justify-content: center; align-items: center; }
-    .action-btn { border: none; background: transparent; font-size: 22px; cursor: pointer; }
-    .btn-create-order { width: 70%; padding: 16px; background: #3B096C; border: none; border-radius: 20px; color: #FFF500; font-size: 18px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.3); margin: 15px auto 0 auto; display: block; }
-    .btn-create-order:active { transform: scale(0.96); }
-    .menu-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(3px); z-index: 200; }
-    .menu-drawer { position: absolute; top: 0; right: -280px; width: 260px; height: 100%; background: #3B096C; box-shadow: -5px 0 25px rgba(0,0,0,0.5); transition: right 0.3s ease; display: flex; flex-direction: column; padding: 30px 20px; z-index: 201; }
+    
+    .action-yellow-block { background: #FFF500; width: 48px; height: 60px; border-radius: 12px; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
+    .action-btn { border: none; background: transparent; font-size: 20px; cursor: pointer; }
+    
+    .btn-create-order { width: 100%; padding: 15px; background: #3B096C; border: none; border-radius: 16px; color: #FFF500; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.3); margin-top: 8px; flex-shrink: 0; }
+    .btn-create-order:active { transform: scale(0.98); }
+    
+    /* БОКОВОЕ МЕНЮ */
+    .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(3px); z-index: 200; }
+    .menu-drawer { position: fixed; top: 0; right: -280px; width: 260px; height: 100%; background: #3B096C; box-shadow: -5px 0 25px rgba(0,0,0,0.5); transition: right 0.3s ease; display: flex; flex-direction: column; padding: 40px 20px 20px 20px; z-index: 201; }
     .menu-drawer.open { right: 0; }
-    .menu-header { color: #FFF500; font-size: 22px; font-weight: 900; border-bottom: 2px solid rgba(255, 255, 255, 0.1); padding-bottom: 15px; margin-bottom: 20px; }
-    .menu-items { display: flex; flex-direction: column; gap: 12px; flex: 1; }
-    .menu-item { background: rgba(255, 255, 255, 0.08); border: none; border-radius: 12px; padding: 14px 16px; color: #FFFFFF; font-size: 16px; font-weight: 700; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 10px; }
-    .menu-item:active { background: rgba(255, 255, 255, 0.2); }
+    .menu-header { color: #FFF500; font-size: 20px; font-weight: 900; border-bottom: 2px solid rgba(255, 255, 255, 0.1); padding-bottom: 12px; margin-bottom: 16px; }
+    .menu-items { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .menu-item { background: rgba(255, 255, 255, 0.08); border: none; border-radius: 10px; padding: 12px 14px; color: #FFFFFF; font-size: 15px; font-weight: 700; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 8px; }
     .menu-item.active { background: #FFF500; color: #3B096C; }
-    .menu-footer { border-top: 2px solid rgba(255, 255, 255, 0.1); padding-top: 15px; }
-    .btn-logout { width: 100%; padding: 12px; background: #FF4757; border: none; border-radius: 12px; color: #FFFFFF; font-size: 15px; font-weight: 800; cursor: pointer; }
-    .modal-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); backdrop-filter: blur(4px); justify-content: center; alignItems: center; z-index: 100; padding: 20px; }
-    .modal-card { width: 100%; background: #3B096C; border-radius: 24px; padding: 24px 20px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-    .modal-title { color: #FFF500; font-size: 20px; font-weight: 800; text-align: center; margin-bottom: 5px; }
-    .modal-input { width: 100%; padding: 12px 15px; background: #FFFFFF; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; outline: none; color: #333; }
-    .address-details { display: flex; gap: 8px; }
+    .menu-footer { border-top: 2px solid rgba(255, 255, 255, 0.1); padding-top: 12px; }
+    .btn-logout { width: 100%; padding: 12px; background: #FF4757; border: none; border-radius: 10px; color: #FFFFFF; font-size: 14px; font-weight: 800; cursor: pointer; }
+    
+    /* МОДАЛЬНЫЕ ОКНА */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 100; padding: 16px; }
+    .modal-card { width: 100%; max-width: 360px; background: #3B096C; border-radius: 20px; padding: 20px 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    .modal-title { color: #FFF500; font-size: 18px; font-weight: 800; text-align: center; margin-bottom: 4px; }
+    .modal-input { width: 100%; padding: 11px 13px; background: #FFFFFF; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; outline: none; color: #333; }
+    .address-details { display: flex; gap: 6px; }
     .address-details input { width: 33.3%; text-align: center; }
-    .modal-buttons { display: flex; gap: 10px; margin-top: 10px; }
-    .btn-add { flex: 2; padding: 14px; background: #FFF500; border: none; border-radius: 12px; color: #3B096C; font-size: 16px; font-weight: 800; cursor: pointer; }
-    .btn-cancel { flex: 1; padding: 14px; background: #FF4757; border: none; border-radius: 12px; color: #FFFFFF; font-size: 16px; font-weight: 800; cursor: pointer; }
-    .view-row { background: rgba(255, 255, 255, 0.1); padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; color: #FFFFFF; }
-    .view-label { font-size: 12px; color: #FFF500; margin-bottom: 3px; }
-    .view-value { font-size: 15px; font-weight: 700; }
-    .btn-icon-action { background: #FFF500; color: #3B096C; border: none; padding: 8px 12px; border-radius: 8px; font-weight: 800; font-size: 13px; text-decoration: none; cursor: pointer; display: flex; align-items: center; gap: 4px; }
-    .btn-complete-order { width: 100%; padding: 14px; background: #27ae60; color: #FFFFFF; border: none; border-radius: 12px; font-size: 16px; font-weight: 800; cursor: pointer; margin-top: 5px; }
+    .modal-buttons { display: flex; gap: 8px; margin-top: 6px; }
+    .btn-add { flex: 2; padding: 12px; background: #FFF500; border: none; border-radius: 10px; color: #3B096C; font-size: 15px; font-weight: 800; cursor: pointer; }
+    .btn-cancel { flex: 1; padding: 12px; background: #FF4757; border: none; border-radius: 10px; color: #FFFFFF; font-size: 15px; font-weight: 800; cursor: pointer; }
+    
+    .view-row { background: rgba(255, 255, 255, 0.1); padding: 10px 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; color: #FFFFFF; }
+    .view-label { font-size: 11px; color: #FFF500; margin-bottom: 2px; }
+    .view-value { font-size: 14px; font-weight: 700; word-break: break-word; }
+    .btn-icon-action { background: #FFF500; color: #3B096C; border: none; padding: 6px 10px; border-radius: 8px; font-weight: 800; font-size: 12px; text-decoration: none; cursor: pointer; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .btn-complete-order { width: 100%; padding: 12px; background: #27ae60; color: #FFFFFF; border: none; border-radius: 10px; font-size: 15px; font-weight: 800; cursor: pointer; margin-top: 4px; }
   </style>
 </head>
 <body>
   <div class="app-screen">
+    <!-- Авторизация -->
     <div id="auth-screen">
       <div class="logo-container"><div class="logo-text">DOSTAVIM</div></div>
       <div class="form-container">
@@ -72,19 +84,25 @@
         <button class="btn-submit" onclick="login()">ВОЙТИ</button>
       </div>
     </div>
+
+    <!-- Главный интерфейс -->
     <div id="app-content">
       <div class="header-card">
         <span class="courier-name" id="displayCourierName">Имя Курьера</span>
         <button class="menu-btn" onclick="openMenu()">☰</button>
       </div>
+
       <div id="active-orders-page" class="page-view">
         <div class="orders-list" id="activeOrdersList"></div>
         <button class="btn-create-order" onclick="openCreateModal()">Создать заказ</button>
       </div>
+
       <div id="completed-orders-page" class="page-view" style="display: none;">
         <div class="orders-list" id="completedOrdersList"></div>
       </div>
     </div>
+
+    <!-- Боковое меню -->
     <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
     <div class="menu-drawer" id="menuDrawer">
       <div class="menu-header">МЕНЮ</div>
@@ -94,6 +112,8 @@
       </div>
       <div class="menu-footer"><button class="btn-logout" onclick="logout()">Выйти</button></div>
     </div>
+
+    <!-- Модальное окно создания заказа -->
     <div class="modal-overlay" id="createModal">
       <div class="modal-card">
         <div class="modal-title">НОВЫЙ ЗАКАЗ</div>
@@ -111,6 +131,8 @@
         </div>
       </div>
     </div>
+
+    <!-- Модальное окно просмотра заказа -->
     <div class="modal-overlay" id="viewModal">
       <div class="modal-card">
         <div class="modal-title" id="viewTitle">Заказ № ---</div>
@@ -133,9 +155,11 @@
       </div>
     </div>
   </div>
+
   <script>
     const couriers = { "0997141127": "Нурлан Кожонов", "0553331388": "Авазбеков Жумамидин", "0557559915": "Мусагулов Нурлан" };
     let activeOrders = [], completedOrders = [], selectedOrderId = null;
+
     function login() {
       const input = document.getElementById('phoneInput'), errorMsg = document.getElementById('errorMsg');
       let cleanPhone = input.value.replace(/\D/g, '');
@@ -148,20 +172,35 @@
         renderOrders();
       } else { errorMsg.innerText = "Номер не найден в базе!"; }
     }
-    function logout() { closeMenu(); document.getElementById('app-content').style.display = 'none'; document.getElementById('auth-screen').style.display = 'flex'; document.getElementById('phoneInput').value = ''; }
+
+    function logout() {
+      closeMenu();
+      document.getElementById('app-content').style.display = 'none';
+      document.getElementById('auth-screen').style.display = 'flex';
+      document.getElementById('phoneInput').value = '';
+    }
+
     function openMenu() { document.getElementById('menuOverlay').style.display = 'block'; document.getElementById('menuDrawer').classList.add('open'); }
     function closeMenu() { document.getElementById('menuOverlay').style.display = 'none'; document.getElementById('menuDrawer').classList.remove('open'); }
+
     function navigateTo(page) {
       closeMenu();
       const mainPage = document.getElementById('active-orders-page'), historyPage = document.getElementById('completed-orders-page');
       const btnMain = document.getElementById('menuBtnMain'), btnHistory = document.getElementById('menuBtnHistory');
-      if (page === 'main') { mainPage.style.display = 'flex'; historyPage.style.display = 'none'; btnMain.classList.add('active'); btnHistory.classList.remove('active'); }
-      else if (page === 'history') { mainPage.style.display = 'none'; historyPage.style.display = 'flex'; btnHistory.classList.add('active'); btnMain.classList.remove('active'); }
+      if (page === 'main') {
+        mainPage.style.display = 'flex'; historyPage.style.display = 'none';
+        btnMain.classList.add('active'); btnHistory.classList.remove('active');
+      } else if (page === 'history') {
+        mainPage.style.display = 'none'; historyPage.style.display = 'flex';
+        btnHistory.classList.add('active'); btnMain.classList.remove('active');
+      }
       renderOrders();
     }
+
     function openCreateModal() { document.getElementById('createModal').style.display = 'flex'; }
     function closeCreateModal() { document.getElementById('createModal').style.display = 'none'; clearModalInputs(); }
     function clearModalInputs() { document.getElementById('inputInvoice').value = ''; document.getElementById('inputStreet').value = ''; document.getElementById('inputEntrance').value = ''; document.getElementById('inputFloor').value = ''; document.getElementById('inputFlat').value = ''; document.getElementById('inputPhone').value = ''; }
+
     function addOrder() {
       const invoice = document.getElementById('inputInvoice').value.trim(), street = document.getElementById('inputStreet').value.trim(), entrance = document.getElementById('inputEntrance').value.trim(), floor = document.getElementById('inputFloor').value.trim(), flat = document.getElementById('inputFlat').value.trim(), phone = document.getElementById('inputPhone').value.trim();
       if (!invoice || !street || !phone) { alert('Заполните номер накладной, адрес и телефон!'); return; }
@@ -171,7 +210,9 @@
       activeOrders.push({ id: Date.now(), invoice, streetOnly: street, address: fullAddress, phone, status: 'active' });
       renderOrders(); closeCreateModal();
     }
+
     function deleteOrder(e, id) { e.stopPropagation(); if (confirm('Удалить этот заказ?')) { activeOrders = activeOrders.filter(o => o.id !== id); completedOrders = completedOrders.filter(o => o.id !== id); renderOrders(); } }
+
     function openViewModal(id, isCompleted = false) {
       let order = activeOrders.find(o => o.id === id) || completedOrders.find(o => o.id === id);
       if (!order) return;
@@ -183,8 +224,10 @@
       document.getElementById('modalCompleteBtn').style.display = isCompleted ? 'none' : 'block';
       document.getElementById('viewModal').style.display = 'flex';
     }
+
     function closeViewModal() { document.getElementById('viewModal').style.display = 'none'; selectedOrderId = null; }
     function copyPhone() { const phoneText = document.getElementById('viewPhone').innerText; navigator.clipboard.writeText(phoneText).then(() => alert('Номер скопирован: ' + phoneText)).catch(() => alert('Номер для звонка: ' + phoneText)); }
+
     function completeCurrentOrder() {
       if (selectedOrderId) {
         const orderIndex = activeOrders.findIndex(o => o.id === selectedOrderId);
@@ -198,6 +241,7 @@
         renderOrders(); closeViewModal();
       }
     }
+
     function renderOrders() {
       const activeContainer = document.getElementById('activeOrdersList'); activeContainer.innerHTML = '';
       if (activeOrders.length === 0) { activeContainer.innerHTML = '<div class="empty-state">Нет активных заказов</div>'; }
@@ -208,6 +252,7 @@
           activeContainer.appendChild(card);
         });
       }
+
       const completedContainer = document.getElementById('completedOrdersList'); completedContainer.innerHTML = '';
       if (completedOrders.length === 0) { completedContainer.innerHTML = '<div class="empty-state">Выполненных заказов пока нет</div>'; }
       else {
