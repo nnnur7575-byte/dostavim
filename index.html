@@ -32,7 +32,7 @@
     .empty-state { text-align: center; color: rgba(255, 255, 255, 0.8); font-weight: 600; margin-top: 40px; font-size: 15px; }
     
     .order-card { width: 100%; background: #3B096C; border-radius: 16px; padding: 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2); cursor: pointer; flex-shrink: 0; }
-    .order-info { display: flex; flex-direction: column; gap: 4px; color: #FFF500; font-size: 13px; font-weight: 700; max-width: 75%; }
+    .order-info { display: flex; flex-direction: column; gap: 4px; color: #FFF500; font-size: 13px; font-weight: 700; max-width: 70%; }
     .status-tag { font-size: 11px; background: #27ae60; color: #ffffff; padding: 2px 8px; border-radius: 6px; display: inline-block; width: fit-content; margin-bottom: 2px; }
     .status-tag.completed { background: #2980b9; }
     .order-info span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -40,8 +40,10 @@
     .action-yellow-block { background: #FFF500; width: 48px; height: 60px; border-radius: 12px; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
     .action-btn { border: none; background: transparent; font-size: 20px; cursor: pointer; }
     
-    .btn-create-order { width: 100%; padding: 15px; background: #3B096C; border: none; border-radius: 16px; color: #FFF500; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.3); margin-top: 8px; flex-shrink: 0; }
-    .btn-create-order:active { transform: scale(0.98); }
+    .btn-create-order, .btn-finish-shift { width: 100%; padding: 14px; border: none; border-radius: 16px; font-size: 15px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.3); flex-shrink: 0; }
+    .btn-create-order { background: #3B096C; color: #FFF500; margin-top: 8px; }
+    .btn-finish-shift { background: #E74C3C; color: #FFFFFF; margin-top: 8px; }
+    .btn-create-order:active, .btn-finish-shift:active { transform: scale(0.98); }
     
     /* БОКОВОЕ МЕНЮ */
     .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(3px); z-index: 200; }
@@ -54,9 +56,24 @@
     .menu-footer { border-top: 2px solid rgba(255, 255, 255, 0.1); padding-top: 12px; }
     .btn-logout { width: 100%; padding: 12px; background: #FF4757; border: none; border-radius: 10px; color: #FFFFFF; font-size: 14px; font-weight: 800; cursor: pointer; }
     
+    /* АРХИВ И ГРАФИКИ */
+    .archive-summary { background: #3B096C; border-radius: 16px; padding: 14px; color: #FFF; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .summary-title { color: #FFF500; font-weight: 800; font-size: 16px; text-align: center; }
+    .summary-stats { display: flex; justify-content: space-around; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 10px; text-align: center; }
+    .stat-val { font-size: 18px; font-weight: 900; color: #FFF500; }
+    .stat-lbl { font-size: 11px; opacity: 0.8; }
+    
+    .chart-box { background: rgba(0, 0, 0, 0.2); border-radius: 12px; padding: 12px; margin-top: 4px; }
+    .chart-title { font-size: 12px; color: #FFF500; font-weight: 700; margin-bottom: 8px; text-align: center; }
+    .chart-bars { display: flex; align-items: flex-end; gap: 8px; height: 100px; padding-top: 10px; overflow-x: auto; }
+    .chart-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 35px; }
+    .bar-val { font-size: 10px; color: #FFF500; font-weight: 800; }
+    .bar-fill { width: 100%; background: #FFF500; border-radius: 4px 4px 0 0; min-height: 4px; transition: height 0.3s ease; }
+    .bar-date { font-size: 9px; opacity: 0.8; color: #FFF; white-space: nowrap; }
+
     /* МОДАЛЬНЫЕ ОКНА */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 100; padding: 16px; }
-    .modal-card { width: 100%; max-width: 360px; background: #3B096C; border-radius: 20px; padding: 20px 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    .modal-card { width: 100%; max-width: 360px; background: #3B096C; border-radius: 20px; padding: 20px 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); max-height: 85vh; overflow-y: auto; }
     .modal-title { color: #FFF500; font-size: 18px; font-weight: 800; text-align: center; margin-bottom: 4px; }
     .modal-input { width: 100%; padding: 11px 13px; background: #FFFFFF; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; outline: none; color: #333; }
     .address-details { display: flex; gap: 6px; }
@@ -65,16 +82,16 @@
     .btn-add { flex: 2; padding: 12px; background: #FFF500; border: none; border-radius: 10px; color: #3B096C; font-size: 15px; font-weight: 800; cursor: pointer; }
     .btn-cancel { flex: 1; padding: 12px; background: #FF4757; border: none; border-radius: 10px; color: #FFFFFF; font-size: 15px; font-weight: 800; cursor: pointer; }
     
-    .view-row { background: rgba(255, 255, 255, 0.1); padding: 10px 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; color: #FFFFFF; }
+    .view-row { background: rgba(255, 255, 255, 0.1); padding: 10px 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; color: #FFFFFF; gap: 8px; }
     .view-label { font-size: 11px; color: #FFF500; margin-bottom: 2px; }
     .view-value { font-size: 14px; font-weight: 700; word-break: break-word; }
+    .action-group { display: flex; gap: 6px; flex-shrink: 0; }
     .btn-icon-action { background: #FFF500; color: #3B096C; border: none; padding: 6px 10px; border-radius: 8px; font-weight: 800; font-size: 12px; text-decoration: none; cursor: pointer; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
     .btn-complete-order { width: 100%; padding: 12px; background: #27ae60; color: #FFFFFF; border: none; border-radius: 10px; font-size: 15px; font-weight: 800; cursor: pointer; margin-top: 4px; }
   </style>
 </head>
 <body>
   <div class="app-screen">
-    <!-- Авторизация -->
     <div id="auth-screen">
       <div class="logo-container"><div class="logo-text">DOSTAVIM</div></div>
       <div class="form-container">
@@ -85,7 +102,6 @@
       </div>
     </div>
 
-    <!-- Главный интерфейс -->
     <div id="app-content">
       <div class="header-card">
         <span class="courier-name" id="displayCourierName">Имя Курьера</span>
@@ -94,26 +110,41 @@
 
       <div id="active-orders-page" class="page-view">
         <div class="orders-list" id="activeOrdersList"></div>
-        <button class="btn-create-order" onclick="openCreateModal()">Создать заказ</button>
+        <button class="btn-create-order" onclick="openCreateModal()">+ Создать заказ</button>
       </div>
 
       <div id="completed-orders-page" class="page-view" style="display: none;">
         <div class="orders-list" id="completedOrdersList"></div>
+        <button class="btn-finish-shift" onclick="finishShift()">Завершить смену 🏁</button>
+      </div>
+
+      <div id="archive-page" class="page-view" style="display: none;">
+        <div class="archive-summary">
+          <div class="summary-title">📊 ОБЩАЯ СТАТИСТИКА</div>
+          <div class="summary-stats">
+            <div><div class="stat-val" id="totalArchiveOrders">0</div><div class="stat-lbl">Всего заказов</div></div>
+            <div><div class="stat-val" id="totalArchiveMoney">0 сом</div><div class="stat-lbl">Всего заработано</div></div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-title">📈 График заработка по сменам (сом)</div>
+            <div class="chart-bars" id="chartBarsContainer"></div>
+          </div>
+        </div>
+        <div class="orders-list" id="archiveShiftsList"></div>
       </div>
     </div>
 
-    <!-- Боковое меню -->
     <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
     <div class="menu-drawer" id="menuDrawer">
       <div class="menu-header">МЕНЮ</div>
       <div class="menu-items">
         <button class="menu-item active" id="menuBtnMain" onclick="navigateTo('main')">📦 Активные заказы</button>
-        <button class="menu-item" id="menuBtnHistory" onclick="navigateTo('history')">✅ Мои заказы</button>
+        <button class="menu-item" id="menuBtnHistory" onclick="navigateTo('history')">✅ Заказы за сегодня</button>
+        <button class="menu-item" id="menuBtnArchive" onclick="navigateTo('archive')">📁 Архив смен</button>
       </div>
       <div class="menu-footer"><button class="btn-logout" onclick="logout()">Выйти</button></div>
     </div>
 
-    <!-- Модальное окно создания заказа -->
     <div class="modal-overlay" id="createModal">
       <div class="modal-card">
         <div class="modal-title">НОВЫЙ ЗАКАЗ</div>
@@ -132,7 +163,6 @@
       </div>
     </div>
 
-    <!-- Модальное окно просмотра заказа -->
     <div class="modal-overlay" id="viewModal">
       <div class="modal-card">
         <div class="modal-title" id="viewTitle">Заказ № ---</div>
@@ -148,7 +178,10 @@
             <div class="view-label">Номер телефона:</div>
             <div class="view-value" id="viewPhone">---</div>
           </div>
-          <button class="btn-icon-action" onclick="copyPhone()">📋</button>
+          <div class="action-group">
+            <a href="#" id="callPhoneBtn" class="btn-icon-action" style="background:#27ae60; color:#fff;">📞 Вызов</a>
+            <button class="btn-icon-action" onclick="copyPhone()">📋</button>
+          </div>
         </div>
         <button class="btn-complete-order" id="modalCompleteBtn" onclick="completeCurrentOrder()">Завершить заказ ✅</button>
         <button class="btn-cancel" onclick="closeViewModal()">Выйти</button>
@@ -158,14 +191,22 @@
 
   <script>
     const couriers = { "0997141127": "Нурлан Кожонов", "0553331388": "Авазбеков Жумамидин", "0557559915": "Мусагулов Нурлан" };
-    let activeOrders = [], completedOrders = [], selectedOrderId = null;
+    const RATE_PER_ORDER = 170; // 170 сом за заказ
 
+    let currentCourierPhone = "";
+    let activeOrders = [], completedOrders = [], archiveShifts = [];
+    let selectedOrderId = null;
+
+    // Авторизация и загрузка базы данных
     function login() {
       const input = document.getElementById('phoneInput'), errorMsg = document.getElementById('errorMsg');
       let cleanPhone = input.value.replace(/\D/g, '');
       if (cleanPhone.startsWith('996')) cleanPhone = '0' + cleanPhone.substring(3);
+      
       if (couriers[cleanPhone]) {
         errorMsg.innerText = "";
+        currentCourierPhone = cleanPhone;
+        loadDataFromStorage();
         document.getElementById('auth-screen').style.display = 'none';
         document.getElementById('app-content').style.display = 'flex';
         document.getElementById('displayCourierName').innerText = couriers[cleanPhone];
@@ -180,20 +221,48 @@
       document.getElementById('phoneInput').value = '';
     }
 
+    // Сохранение в память телефона (localStorage)
+    function saveDataToStorage() {
+      if (!currentCourierPhone) return;
+      const data = { activeOrders, completedOrders, archiveShifts };
+      localStorage.setItem('dostavim_data_' + currentCourierPhone, JSON.stringify(data));
+    }
+
+    function loadDataFromStorage() {
+      const saved = localStorage.getItem('dostavim_data_' + currentCourierPhone);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          activeOrders = parsed.activeOrders || [];
+          completedOrders = parsed.completedOrders || [];
+          archiveShifts = parsed.archiveShifts || [];
+        } catch(e) { console.error("Ошибка загрузки данных", e); }
+      } else {
+        activeOrders = []; completedOrders = []; archiveShifts = [];
+      }
+    }
+
     function openMenu() { document.getElementById('menuOverlay').style.display = 'block'; document.getElementById('menuDrawer').classList.add('open'); }
     function closeMenu() { document.getElementById('menuOverlay').style.display = 'none'; document.getElementById('menuDrawer').classList.remove('open'); }
 
     function navigateTo(page) {
       closeMenu();
-      const mainPage = document.getElementById('active-orders-page'), historyPage = document.getElementById('completed-orders-page');
-      const btnMain = document.getElementById('menuBtnMain'), btnHistory = document.getElementById('menuBtnHistory');
-      if (page === 'main') {
-        mainPage.style.display = 'flex'; historyPage.style.display = 'none';
-        btnMain.classList.add('active'); btnHistory.classList.remove('active');
-      } else if (page === 'history') {
-        mainPage.style.display = 'none'; historyPage.style.display = 'flex';
-        btnHistory.classList.add('active'); btnMain.classList.remove('active');
-      }
+      const pages = {
+        main: document.getElementById('active-orders-page'),
+        history: document.getElementById('completed-orders-page'),
+        archive: document.getElementById('archive-page')
+      };
+      const buttons = {
+        main: document.getElementById('menuBtnMain'),
+        history: document.getElementById('menuBtnHistory'),
+        archive: document.getElementById('menuBtnArchive')
+      };
+
+      Object.keys(pages).forEach(p => {
+        pages[p].style.display = (p === page) ? 'flex' : 'none';
+        buttons[p].classList.toggle('active', p === page);
+      });
+
       renderOrders();
     }
 
@@ -207,11 +276,21 @@
       let fullAddress = street, details = [];
       if (entrance) details.push(`п. ${entrance}`); if (floor) details.push(`эт. ${floor}`); if (flat) details.push(`кв. ${flat}`);
       if (details.length > 0) fullAddress += ` (${details.join(', ')})`;
+      
       activeOrders.push({ id: Date.now(), invoice, streetOnly: street, address: fullAddress, phone, status: 'active' });
+      saveDataToStorage();
       renderOrders(); closeCreateModal();
     }
 
-    function deleteOrder(e, id) { e.stopPropagation(); if (confirm('Удалить этот заказ?')) { activeOrders = activeOrders.filter(o => o.id !== id); completedOrders = completedOrders.filter(o => o.id !== id); renderOrders(); } }
+    function deleteOrder(e, id) { 
+      e.stopPropagation(); 
+      if (confirm('Удалить этот заказ?')) { 
+        activeOrders = activeOrders.filter(o => o.id !== id); 
+        completedOrders = completedOrders.filter(o => o.id !== id); 
+        saveDataToStorage();
+        renderOrders(); 
+      } 
+    }
 
     function openViewModal(id, isCompleted = false) {
       let order = activeOrders.find(o => o.id === id) || completedOrders.find(o => o.id === id);
@@ -221,12 +300,18 @@
       document.getElementById('viewAddress').innerText = order.address;
       document.getElementById('viewPhone').innerText = order.phone;
       document.getElementById('viewGisBtn').href = `https://2gis.kg/bishkek/search/${encodeURIComponent(order.streetOnly)}`;
+      document.getElementById('callPhoneBtn').href = `tel:${order.phone}`;
+      
       document.getElementById('modalCompleteBtn').style.display = isCompleted ? 'none' : 'block';
       document.getElementById('viewModal').style.display = 'flex';
     }
 
     function closeViewModal() { document.getElementById('viewModal').style.display = 'none'; selectedOrderId = null; }
-    function copyPhone() { const phoneText = document.getElementById('viewPhone').innerText; navigator.clipboard.writeText(phoneText).then(() => alert('Номер скопирован: ' + phoneText)).catch(() => alert('Номер для звонка: ' + phoneText)); }
+    
+    function copyPhone() { 
+      const phoneText = document.getElementById('viewPhone').innerText; 
+      navigator.clipboard.writeText(phoneText).then(() => alert('Номер скопирован: ' + phoneText)).catch(() => alert('Номер: ' + phoneText)); 
+    }
 
     function completeCurrentOrder() {
       if (selectedOrderId) {
@@ -236,30 +321,99 @@
           completedItem.status = 'completed';
           completedItem.completedAt = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
           completedOrders.unshift(completedItem);
-          alert('Заказ перенесен в "Мои заказы"!');
+          saveDataToStorage();
+          alert('Заказ выполнен и сохранен за сегодня!');
         }
         renderOrders(); closeViewModal();
       }
     }
 
+    // Завершение смены (Перенос в архив)
+    function finishShift() {
+      if (completedOrders.length === 0) {
+        alert("За сегодня нет выполненных заказов!");
+        return;
+      }
+      if (confirm(`Завершить смену? Вы выполнили ${completedOrders.length} заказов на сумму ${completedOrders.length * RATE_PER_ORDER} сом. Они перейдут в Архив.`)) {
+        const dateStr = new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        archiveShifts.unshift({
+          id: Date.now(),
+          date: dateStr,
+          ordersCount: completedOrders.length,
+          earned: completedOrders.length * RATE_PER_ORDER,
+          orders: [...completedOrders]
+        });
+        completedOrders = [];
+        saveDataToStorage();
+        navigateTo('archive');
+      }
+    }
+
+    // Отрисовка всех экранов
     function renderOrders() {
+      // Активные заказы
       const activeContainer = document.getElementById('activeOrdersList'); activeContainer.innerHTML = '';
       if (activeOrders.length === 0) { activeContainer.innerHTML = '<div class="empty-state">Нет активных заказов</div>'; }
       else {
         activeOrders.forEach(order => {
           const card = document.createElement('div'); card.className = 'order-card'; card.onclick = () => openViewModal(order.id, false);
-          card.innerHTML = `<div class="order-info"><span class="status-tag">Заказ выполняется ⏳</span><span>Заказ- ${order.invoice}</span><span>Адрес- ${order.address}</span><span>телефон- ${order.phone}</span></div><div class="action-yellow-block"><button class="action-btn" onclick="deleteOrder(event, ${order.id})">🗑️</button></div>`;
+          card.innerHTML = `<div class="order-info"><span class="status-tag">Выполняется ⏳</span><span>Заказ № ${order.invoice}</span><span>Адрес: ${order.address}</span><span>Тел: ${order.phone}</span></div><div class="action-yellow-block"><button class="action-btn" onclick="deleteOrder(event, ${order.id})">🗑️</button></div>`;
           activeContainer.appendChild(card);
         });
       }
 
+      // Выполненные сегодня
       const completedContainer = document.getElementById('completedOrdersList'); completedContainer.innerHTML = '';
-      if (completedOrders.length === 0) { completedContainer.innerHTML = '<div class="empty-state">Выполненных заказов пока нет</div>'; }
+      if (completedOrders.length === 0) { completedContainer.innerHTML = '<div class="empty-state">Выполненных заказов за сегодня нет</div>'; }
       else {
         completedOrders.forEach(order => {
           const card = document.createElement('div'); card.className = 'order-card'; card.onclick = () => openViewModal(order.id, true);
-          card.innerHTML = `<div class="order-info"><span class="status-tag completed">Доставлено в ${order.completedAt} ✅</span><span>Заказ- ${order.invoice}</span><span>Адрес- ${order.address}</span><span>телефон- ${order.phone}</span></div><div class="action-yellow-block"><button class="action-btn" onclick="deleteOrder(event, ${order.id})">🗑️</button></div>`;
+          card.innerHTML = `<div class="order-info"><span class="status-tag completed">Доставлено в ${order.completedAt} ✅</span><span>Заказ № ${order.invoice}</span><span>Адрес: ${order.address}</span><span>Тел: ${order.phone}</span></div><div class="action-yellow-block"><button class="action-btn" onclick="deleteOrder(event, ${order.id})">🗑️</button></div>`;
           completedContainer.appendChild(card);
+        });
+      }
+
+      // Архив смен и статистика
+      renderArchive();
+    }
+
+    function renderArchive() {
+      let totalOrders = 0, totalEarned = 0;
+      archiveShifts.forEach(s => { totalOrders += s.ordersCount; totalEarned += s.earned; });
+      
+      document.getElementById('totalArchiveOrders').innerText = totalOrders;
+      document.getElementById('totalArchiveMoney').innerText = totalEarned + " сом";
+
+      // Графики
+      const chartContainer = document.getElementById('chartBarsContainer');
+      chartContainer.innerHTML = '';
+      const maxEarned = Math.max(...archiveShifts.map(s => s.earned), 1);
+      
+      [...archiveShifts].reverse().slice(-7).forEach(shift => {
+        const heightPct = Math.max((shift.earned / maxEarned) * 100, 8);
+        const bar = document.createElement('div');
+        bar.className = 'chart-bar-wrap';
+        bar.innerHTML = `<div class="bar-val">${shift.earned}</div><div class="bar-fill" style="height: ${heightPct}%"></div><div class="bar-date">${shift.date.slice(0,5)}</div>`;
+        chartContainer.appendChild(bar);
+      });
+
+      // Список смен в архиве
+      const archiveContainer = document.getElementById('archiveShiftsList');
+      archiveContainer.innerHTML = '';
+      if (archiveShifts.length === 0) {
+        archiveContainer.innerHTML = '<div class="empty-state">Архив смен пуст</div>';
+      } else {
+        archiveShifts.forEach(shift => {
+          const card = document.createElement('div');
+          card.className = 'order-card';
+          card.style.flexDirection = 'column';
+          card.style.alignItems = 'stretch';
+          card.innerHTML = `<div style="display:flex; justify-size:space-between; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="color:#FFF500; font-size:15px; font-weight:800;">📅 Смена: ${shift.date}</span>
+            <span style="background:#FFF500; color:#3B096C; padding:3px 8px; border-radius:8px; font-size:12px; font-weight:900;">${shift.earned} сом</span>
+          </div>
+          <div style="color:#FFF; font-size:13px; opacity:0.9;">📦 Заказов сделано: <b>${shift.ordersCount} шт.</b></div>`;
+          archiveContainer.appendChild(card);
         });
       }
     }
